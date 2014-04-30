@@ -1,5 +1,7 @@
 function Circle(args) {
-	this.pos = args.pos || new Vector(0,0);
+	this.pos = args.pos ? 
+		Vector.prototype.copy.apply(args.pos) : 
+		new Vector(0,0);
 	this.parent = args.parent || {pos: new Vector(0,0)};
 	this.color = args.color || "black";
 	this.factor = args.factor || 1;

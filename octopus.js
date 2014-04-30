@@ -39,26 +39,26 @@ function circle(context, x, y, r, color) {
 }
 
 function Octopus(args) {
-	var c = args.context;
 	var r = +(args.r || 35);
-	var pos = new Vector(
-		+(args.x || (args.pos && args.pos.x) || 0),
-		+(args.y || (args.pos && args.pos.y) || 0));
 	var color = ""+(args.color || "#960096");
+/*
 	var eyerad = +(args.eyes && args.eyes.r || r*16/35);
 	var eyecol = ""+(args.eyes && args.eyes.color || "white");
 	var eyeheight = -(args.eyes && args.eyes.height || 0);
 	var eyedist = +(args.eyes && args.eyes.distance || 2*eyerad);
+*/
+	this.body = new Circle({color: color, factor: r, pos: args.pos});
+	var leftEye = new Circle({parent: this.body, factor: 30/70, pos: {x: 0.25, y: 0},color: "white"});
+	var rightEye = new Circle({parent: this.body, factor: 33/70, pos: {x: 0.75, y: 0}, color: "white"});
 
 	this.direction = new Vector(3, 3);
 
-	this.draw = function() {
-		circle(c, pos.x, pos.y, r, color);
-		circle(c, pos.x-eyedist/2,pos.y+eyeheight, eyerad, eyecol);
-		circle(c, pos.x+eyedist/2,pos.y+eyeheight, eyerad, eyecol);
+	this.draw = function(context) {
+		this.body.draw(context);
 	};
 
 	this.update = function() {
+		var pos = this.body.pos;
 		this.direction.turn(50*Math.random()-25);
 		if((pos.x < 0 && this.direction.x < 0) || (pos.x > stage.canvas.width && this.direction.x > 1))
 			this.direction.x = -this.direction.x;
