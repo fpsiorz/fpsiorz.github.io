@@ -3,14 +3,14 @@
 function Stage() {
 	this.canvas = document.getElementById("canvas");
 	this.context = this.canvas.getContext("2d");
-
+/*
 	// ----
 	var parent = new Circle({pos: new Vector(100, 100), factor: 35, color: "green"});
 	var child = new Circle({parent: parent, pos: new Vector(1, 1), factor: 0.5, color: "red"});
 	parent.update = function(){this.pos.x++;this.factor*=0.99;};
 	// ----
-
-	this.objects = [new Octopus({context: this.context, pos:{x: 200, y: 200}, r:35}), parent];
+*/
+	this.objects = [new Octopus({context: this.context, pos:{x: 200, y: 200}, r: 10}), parent];
 	
 	this.tick = function() {
 		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -71,6 +71,7 @@ function Octopus(args) {
 
 	this.update = function() {
 		var pos = this.body.pos;
+		this.body.factor *= Math.pow(100/this.body.factor,0.001);
 		this.direction.turn(50*Math.random()-25);
 		if((pos.x < 0 && this.direction.x < 0) || (pos.x > stage.canvas.width && this.direction.x > 1))
 			this.direction.x = -this.direction.x;
