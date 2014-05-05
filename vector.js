@@ -20,7 +20,13 @@ Vector.prototype.scale = function(l) {
 }
 
 Vector.prototype.normalize = function() {
-	this.scale(this.abs());
+	this.scale(1/this.abs());
+	return this;
+}
+
+Vector.prototype.neg = function() {
+	this.x = -this.x;
+	this.y = -this.y;
 	return this;
 }
 

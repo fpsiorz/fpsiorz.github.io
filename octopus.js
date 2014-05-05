@@ -18,8 +18,6 @@ function Stage() {
 			this.objects[i].update();
 			this.objects[i].draw(this.context);
 		}
-		this.context.fillStyle = "black";
-		this.context.fillText(this.objects[0].direction.toString(), 10, 10);
 	}
 }
 
@@ -48,13 +46,27 @@ function Octopus(args) {
 	var eyedist = +(args.eyes && args.eyes.distance || 2*eyerad);
 */
 	this.body = new Circle({color: color, factor: r, pos: args.pos});
-	var leftEye = new Circle({parent: this.body, factor: 30/70, pos: {x: 0.25, y: 0},color: "white"});
-	var rightEye = new Circle({parent: this.body, factor: 33/70, pos: {x: 0.75, y: 0}, color: "white"});
+	var leftEye = new Circle({parent: this.body, factor: 30/70, pos: {x: 0.5, y: 0},color: "white"});
+	var rightEye = new Circle({parent: this.body, factor: 33/70, pos: {x: -0.5, y: 0}, color: "white"});
+	var leftPupil = new Circle({parent: leftEye, factor: 1/2, color: "black"});
+	var rightPupil = new Circle({parent: rightEye, factor: 1/2, color: "black"});
 
 	this.direction = new Vector(3, 3);
 
 	this.draw = function(context) {
 		this.body.draw(context);
+
+		var text = 
+			"Octopus: pos = " + this.body.absolutePos() +
+			"rad = " + this.body.absoluteRadius() +
+			"Left Eye: pos = " + leftEye.absolutePos()  +
+			"rad = " + leftEye.absoluteRadius() +
+			"Right Eye: pos = " + rightEye.absolutePos() +
+			"rad = " + rightEye.absoluteRadius();
+
+		context.fillStyle = "black";
+		context.fillText(text, 10, 10);
+	
 	};
 
 	this.update = function() {
@@ -66,6 +78,10 @@ function Octopus(args) {
 			this.direction.y = -this.direction.y;
 		pos.x += this.direction.x;
 		pos.y += this.direction.y;
+		leftPupil.pos.x = rightPupil.pos.x = this.direction.x;
+		leftPupil.pos.y = rightPupil.pos.y = this.direction.y;
+		leftPupil.pos.normalize().scale(0.3);
+		rightPupil.pos.normalize().scale(0.3);
 	};
 }
 
