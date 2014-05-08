@@ -1,3 +1,5 @@
+"use strict";
+
 function Circle(args) {
 	this.pos = args.pos ? 
 		Vector.prototype.copy.apply(args.pos) : 

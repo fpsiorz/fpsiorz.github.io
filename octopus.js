@@ -1,19 +1,32 @@
 "use strict";
 
+function randomColor() {
+	var hexdigits = '0123456789ABCDEF';
+	var color = '#';
+	for(var i = 0; i < 6; i++)
+		color += hexdigits[Math.round(15 * Math.random())];
+	return color;
+}
+
 function Stage() {
 	this.canvas = document.getElementById("canvas");
 	this.context = this.canvas.getContext("2d");
-/*
-	// ----
+
+	// ---- currently not used!
 	var parent = new Circle({pos: new Vector(100, 100), factor: 35, color: "green"});
 	var child = new Circle({parent: parent, pos: new Vector(1, 1), factor: 0.5, color: "red"});
 	parent.update = function(){this.pos.x++;this.factor*=0.99;};
 	// ----
-*/
-	this.objects = [new Octopus({context: this.context, pos:{x: 200, y: 200}, r: 10}), parent];
+
+	this.objects = [new Octopus({context: this.context, pos: {x: 200, y: 200}, r: 10})];
 	
 	this.tick = function() {
-		this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		var background = this.context.createLinearGradient(0,0,0,this.canvas.height);
+		background.addColorStop(0,"lightblue");
+		background.addColorStop(1,"blue");
+		this.context.fillStyle = background;
+
+		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
 		for(var i = 0; i < this.objects.length; i++) {
 			this.objects[i].update();
 			this.objects[i].draw(this.context);
@@ -25,7 +38,17 @@ var stage;
 
 window.onload = function() {
 	stage = new Stage();
-	setInterval("stage.tick();", 50);
+	function tick() {
+		stage.tick();
+	}
+	setInterval(tick, 50);
+	stage.canvas.height = window.innerHeight;
+	stage.canvas.width = window.innerWidth;
+}
+
+window.onresize = function() {
+	stage.canvas.height = window.innerHeight;
+	stage.canvas.width = window.innerWidth;
 }
 
 function circle(context, x, y, r, color) {
