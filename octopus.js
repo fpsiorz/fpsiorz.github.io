@@ -18,7 +18,7 @@ function Stage() {
 	parent.update = function(){this.pos.x++;this.factor*=0.99;};
 	// ----
 
-	this.objects = [new Octopus({context: this.context, pos: {x: 200, y: 200}, r: 10})];
+	this.objects = [new Octopus({pos: {x: 200, y: 200}, r: 10})];
 	
 	this.tick = function() {
 		var background = this.context.createLinearGradient(0,0,0,this.canvas.height);
@@ -27,10 +27,15 @@ function Stage() {
 		this.context.fillStyle = background;
 
 		this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
 		for(var i = 0; i < this.objects.length; i++) {
 			this.objects[i].update();
 			this.objects[i].draw(this.context);
 		}
+	}
+
+	this.spawn = function() {
+		this.objects.push(new Octopus({pos: {x: Math.random() * 200, y: Math.random() * 200}, r: Math.random() * 10, color: randomColor()}));
 	}
 }
 
@@ -41,7 +46,11 @@ window.onload = function() {
 	function tick() {
 		stage.tick();
 	}
+	function spawn() {
+		stage.spawn();
+	}
 	setInterval(tick, 50);
+	setInterval(spawn, 5000);
 	stage.canvas.height = window.innerHeight;
 	stage.canvas.width = window.innerWidth;
 }
@@ -78,7 +87,7 @@ function Octopus(args) {
 
 	this.draw = function(context) {
 		this.body.draw(context);
-
+/*
 		var text = 
 			"Octopus: pos = " + this.body.absolutePos() +
 			"rad = " + this.body.absoluteRadius() +
@@ -89,7 +98,7 @@ function Octopus(args) {
 
 		context.fillStyle = "black";
 		context.fillText(text, 10, 10);
-	
+*/	
 	};
 
 	this.update = function() {
