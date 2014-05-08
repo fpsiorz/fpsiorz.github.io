@@ -78,8 +78,8 @@ function Octopus(args) {
 	var eyedist = +(args.eyes && args.eyes.distance || 2*eyerad);
 */
 	this.body = new Circle({color: color, factor: r, pos: args.pos});
-	var leftEye = new Circle({parent: this.body, factor: 30/70, pos: {x: 0.5, y: 0},color: "white"});
-	var rightEye = new Circle({parent: this.body, factor: 33/70, pos: {x: -0.5, y: 0}, color: "white"});
+	var leftEye = new Circle({parent: this.body, factor: 30/70, pos: {x: 0.5, y: -1/25},color: "white"});
+	var rightEye = new Circle({parent: this.body, factor: 33/70, pos: {x: -0.5, y: -1/25}, color: "white"});
 	var leftPupil = new Circle({parent: leftEye, factor: 1/2, color: "black"});
 	var rightPupil = new Circle({parent: rightEye, factor: 1/2, color: "black"});
 
