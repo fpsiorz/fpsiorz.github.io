@@ -8,7 +8,10 @@ function Circle(args) {
 	this.color = args.color || "black";
 	this.factor = args.factor || 1;
 	this.children = [];
+	this.bgchildren = [];
 	this.draw = function(context) {
+		for(var i = 0; i < this.bgchildren.length; i++)
+			this.bgchildren[i].draw(context);
 		var pos = this.absolutePos();
 		var rad = this.absoluteRadius();
 		context.beginPath();
@@ -33,9 +36,12 @@ function Circle(args) {
 		return this.factor * this.parent.absoluteRadius();
 	};
 	this.update = function(){}
-	if(this.parent && this.parent.children)
-		this.parent.children.push(this);
-	else if(this.parent)
+	if(this.parent && this.parent.children) {
+		if(args.behind)
+			this.parent.bgchildren.push(this);
+		else		
+			this.parent.children.push(this);
+	} else if(this.parent)
 		this.parent.children = [this];	
 }
 

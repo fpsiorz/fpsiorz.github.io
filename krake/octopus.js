@@ -18,7 +18,7 @@ function Stage() {
 	parent.update = function(){this.pos.x++;this.factor*=0.99;};
 	// ----
 
-	this.objects = [new Octopus({pos: {x: 200, y: 200}, r: 10})];
+	this.objects = [new Octopus({pos: {x: 200, y: 200}, r: 50})];
 	
 	this.tick = function() {
 		var background = this.context.createLinearGradient(0,0,0,this.canvas.height);
@@ -82,6 +82,20 @@ function Octopus(args) {
 	var rightEye = new Circle({parent: this.body, factor: 33/70, pos: {x: -0.5, y: -1/25}, color: "white"});
 	var leftPupil = new Circle({parent: leftEye, factor: 1/2, color: "black"});
 	var rightPupil = new Circle({parent: rightEye, factor: 1/2, color: "black"});
+	
+	var tentacles = [];
+
+	for(var i = 0; i < 8; i++) {
+		var pos = {
+			y: Math.sin(i*Math.PI/7),
+			x: Math.cos(i*Math.PI/7)
+		};
+		var tentacle = new Circle({parent: this.body, color: color, factor: 0.2, pos: pos, behind: true});
+		var parent = tentacle;
+		for(var j = 0; j < 10; j++) {
+			parent = new Circle({parent: parent, color: color, factor: 0.9, pos: pos, behind: true});
+		}
+	}
 
 	this.direction = new Vector(3, 3);
 
