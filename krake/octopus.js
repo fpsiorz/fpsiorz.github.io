@@ -95,6 +95,7 @@ function Octopus(args) {
 		for(var j = 0; j < 10; j++) {
 			parent = new Circle({parent: parent, color: color, factor: 0.9, pos: pos, behind: true});
 		}
+		tentacles[i] = tentacle;
 	}
 
 	this.direction = new Vector(3, 3);
@@ -129,6 +130,19 @@ function Octopus(args) {
 		leftPupil.pos.y = rightPupil.pos.y = this.direction.y;
 		leftPupil.pos.normalize().scale(0.3);
 		rightPupil.pos.normalize().scale(0.3);
+		// move arms
+		for(var i = 0; i < tentacles.length; i++) {
+			var parent = tentacles[i];
+			while(parent && parent.bgchildren.length) {
+				var child = parent.bgchildren[0];
+				//var len = child.pos.abs()
+				var target = parent.pos.copy().towards(child.pos, 0.5)
+				target.x += Math.random()-0.5;
+				target.y += Math.random()-0.5;
+				child.pos = child.pos.towards(target, 0.5).normalize();
+				parent = child;
+			}			
+		}
 	};
 }
 

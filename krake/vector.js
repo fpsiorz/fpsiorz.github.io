@@ -11,6 +11,10 @@ Vector.prototype.translate = function(v) {
 	return this;
 };
 
+Vector.prototype.diff = function(v) {
+	return new Vector(this.x - v.x, this.y - v.y);
+}
+
 Vector.prototype.abs =  function() {
 	return Math.sqrt(this.x*this.x+this.y*this.y);
 }
@@ -43,6 +47,11 @@ Vector.prototype.turn = function(degrees) {
 	this.x = x * Math.cos(rad) - y * Math.sin(rad);
 	this.y = x * Math.sin(rad) + y * Math.cos(rad);
 };
+
+Vector.prototype.towards = function(v, s) {
+	return this.copy().translate(v.diff(this).scale(s));
+};
+
 
 Vector.prototype.toString = function() {
 	return "("+this.x+","+this.y+")";
