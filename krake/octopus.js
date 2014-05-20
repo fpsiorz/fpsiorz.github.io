@@ -17,8 +17,9 @@ function Stage() {
 	var child = new Circle({parent: parent, pos: new Vector(1, 1), factor: 0.5, color: "red"});
 	parent.update = function(){this.pos.x++;this.factor*=0.99;};
 	// ----
-
-	this.objects = [new Octopus({pos: {x: 200, y: 200}, r: 50})];
+	var polly = new Octopus({pos: {x: 200, y: 200}, r: 50});
+	new SpeechBubble({parent: polly.body, pos: {x: 2, y: 2}, factor: 0.8});
+	this.objects = [polly];
 	
 	this.tick = function() {
 		var background = this.context.createLinearGradient(0,0,0,this.canvas.height);
@@ -49,7 +50,7 @@ window.onload = function() {
 	function spawn() {
 		stage.spawn();
 	}
-	setInterval(tick, 50);
+	setInterval(tick, 100);
 	setInterval(spawn, 5000);
 	stage.canvas.height = window.innerHeight;
 	stage.canvas.width = window.innerWidth;
@@ -102,18 +103,6 @@ function Octopus(args) {
 
 	this.draw = function(context) {
 		this.body.draw(context);
-/*
-		var text = 
-			"Octopus: pos = " + this.body.absolutePos() +
-			"rad = " + this.body.absoluteRadius() +
-			"Left Eye: pos = " + leftEye.absolutePos()  +
-			"rad = " + leftEye.absoluteRadius() +
-			"Right Eye: pos = " + rightEye.absolutePos() +
-			"rad = " + rightEye.absoluteRadius();
-
-		context.fillStyle = "black";
-		context.fillText(text, 10, 10);
-*/	
 	};
 
 	this.update = function() {
