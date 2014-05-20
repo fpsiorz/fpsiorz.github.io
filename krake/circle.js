@@ -9,32 +9,27 @@ function Circle(args) {
 	this.factor = args.factor || 1;
 	this.children = [];
 	this.bgchildren = [];
+
 	this.draw = function(context) {
+		context.save();
+		context.translate(this.pos.x, this.pos.y);
+		context.scale(this.factor, this.factor);
 		for(var i = 0; i < this.bgchildren.length; i++)
 			this.bgchildren[i].draw(context);
-		var pos = this.absolutePos();
-		var rad = this.absoluteRadius();
+		this.drawMe(context);
+		for(var i = 0; i < this.children.length; i++)
+			this.children[i].draw(context);
+		context.restore();
+	};
+
+	this.drawMe = function(context) {
 		context.beginPath();
-		context.arc(pos.x, pos.y, rad, 0, 2*Math.PI, false);
+		context.arc(0, 0, 1, 0, 2*Math.PI, false);
 		context.closePath();
 		context.fillStyle = this.color;
 		context.fill();
-		for(var i = 0; i < this.children.length; i++)
-			this.children[i].draw(context);
 	};
-	this.absolutePos = function(){
-		if(!this.parent)
-			return this.pos.copy();
-		var pos = this.parent.absolutePos();
-		var relPos = this.pos.copy().scale(this.parent.absoluteRadius())
-		pos.translate(relPos);
-		return pos;
-	};
-	this.absoluteRadius = function() {
-		if(!this.parent)
-			return this.factor;
-		return this.factor * this.parent.absoluteRadius();
-	};
+
 	this.update = function(){}
 	if(this.parent && this.parent.children) {
 		if(args.behind)

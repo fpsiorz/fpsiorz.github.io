@@ -38,7 +38,12 @@ Vector.prototype.neg = function() {
 
 Vector.prototype.copy = function(){
 	return new Vector(this.x, this.y);
-}
+};
+
+Vector.prototype.angle = function() {
+	return Math.atan2(this.y, this.x);
+
+};
 
 Vector.prototype.turn = function(degrees) {
 	degrees = +degrees;
